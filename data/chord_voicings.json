@@ -1,0 +1,17 @@
+{
+	"3NoteVoicings" : 	{
+		"Triad" : [ 2, 4 ],
+		"Sus9" : [ 1, 4 ],
+		"Sus11" : [ 3, 4 ],
+		"Quartal" : [ 3, 6 ]
+	}
+,
+	"4NoteVoicings" : 	{
+		"Triad+9" : [ 1, 2, 4 ],
+		"Triad+11" : [ 2, 3, 4 ],
+		"7th" : [ 2, 4, 6 ],
+		"7thSus9" : [ 1, 4, 6 ],
+		"7thSus11" : [ 3, 4, 6 ]
+	}
+
+}

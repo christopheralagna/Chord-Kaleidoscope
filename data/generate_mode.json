@@ -1,0 +1,11 @@
+{
+	"generateMode" : "none",
+	"triggered" : "false",
+	"noteCountSettings" : 	{
+		"generationPerNoteCount" : "fixed",
+		"min" : 1,
+		"max" : 10,
+		"fixedCount" : 3
+	}
+
+}

@@ -1,0 +1,4 @@
+{
+	"generateMode": ["fixedTimeInterval", "perNoteCount"],
+	"generationPerNoteCount" : ["fixed", "variable"]
+}
