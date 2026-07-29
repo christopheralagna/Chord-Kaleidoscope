@@ -121,14 +121,14 @@ function bang() {
         // Reset everything
         currentScale = [];
         lastNotes = [];
-        outlet(0, "reset"); // Output empty array
+        outlet(0, "clear_notes"); // Output clear command
     }
 
     if (inlet == 3) {
         if (currentScale.length != 0) {
             outlet(0, currentScale);
         } else {
-            outlet(0, "reset");
+            outlet(0, "clear_notes");
         }
 
     }

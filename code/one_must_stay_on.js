@@ -23,42 +23,42 @@ var buttons = [
 */
 
 var groupsByMode = {
-  0: ["cluster1","cluster2","cluster3","interval2","interval3"],
-  1: ["triad","sus2","sus4","quartal","cluster1","cluster2","cluster3",
-      "triad+2","triad+4","7th","7thsus4","interval2","interval3","interval4"],
-  2: ["triad","sus2","sus4","quartal","cluster1","cluster2","cluster3",
-      "triad+2","triad+4","interval2","interval3","interval4","interval5"],
-  3: ["triad","sus2","sus4","quartal","cluster1","cluster2","cluster3",
-      "triad+2","triad+4","7th","7thsus4","interval2","interval3","interval4","interval5","interval6"],
-  4: ["triad","sus2","sus4","quartal","cluster1","cluster2","cluster3",
-      "triad+2","triad+4","7th","7thsus4","special1","special2",
-      "interval2","interval3","interval4","interval5","interval6","interval7"]
+  0: ["cluster1", "cluster2", "interval2", "interval3"],
+  1: ["triad", "sus2", "sus4", "quartal", "cluster1", "cluster2",
+    "triad+2", "triad+4", "7th", "7thsus4", "interval2", "interval3", "interval4"],
+  2: ["triad", "sus2", "sus4", "quartal", "cluster1", "cluster2",
+    "triad+2", "triad+4", "interval2", "interval3", "interval4", "interval5"],
+  3: ["triad", "sus2", "sus4", "quartal", "cluster1", "cluster2",
+    "triad+2", "triad+4", "7th", "7thsus4", "interval2", "interval3", "interval4", "interval5", "interval6"],
+  4: ["triad", "sus2", "sus4", "quartal", "cluster1", "cluster2",
+    "triad+2", "triad+4", "7th", "7thsus4", "special1", "special2",
+    "interval2", "interval3", "interval4", "interval5", "interval6", "interval7"]
 };
 
 var buttons = [
-  "triad","sus2","sus4","quartal",
-  "cluster1","cluster2","cluster3",
-  "triad+2","triad+4","7th","7thsus4",
-  "special1","special2",
-  "interval2","interval3","interval4","interval5","interval6","interval7"
+  "triad", "sus2", "sus4", "quartal",
+  "cluster1", "cluster2", "cluster3",
+  "triad+2", "triad+4", "7th", "7thsus4",
+  "special1", "special2",
+  "interval2", "interval3", "interval4", "interval5", "interval6", "interval7"
 ];
 
 // --- Chord mappings ---
 
 var chordMap = {
-  "triad": [2,4],
-  "sus2": [1,4],
-  "sus4": [3,4],
-  "quartal": [3,6],
-  "cluster1": [1,2],
-  "cluster2": [2,3],
-  "cluster3": [1,3],
-  "triad+2": [1,2,4],
-  "triad+4": [2,3,4],
-  "7th": [2,4,6],
-  "7thsus4": [3,4,6],
-  "special1": [2,4,7],
-  "special2": [2,5,7],
+  "triad": [2, 4],
+  "sus2": [1, 4],
+  "sus4": [3, 4],
+  "quartal": [3, 6],
+  "cluster1": [1, 2],
+  "cluster2": [2, 3],
+  "cluster3": [1, 3],
+  "triad+2": [1, 2, 4],
+  "triad+4": [2, 3, 4],
+  "7th": [2, 4, 6],
+  "7thsus4": [3, 4, 6],
+  "special1": [2, 4, 7],
+  "special2": [2, 5, 7],
   // 2-Note Voicings (Intervals)
   "interval2": [1],  // 2nd
   "interval3": [2],  // 3rd

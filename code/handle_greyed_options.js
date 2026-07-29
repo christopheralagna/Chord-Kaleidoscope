@@ -3,11 +3,11 @@
 outlets = 2; // 0 = name/value updates, 1 = mode
 
 var groups = {
-    0: ["cluster1","cluster2","cluster3","interval2","interval3"],
-    1: ["triad","sus2","sus4","quartal","cluster1","cluster2","cluster3","triad+2","triad+4","7th","7thsus4","interval2","interval3","interval4"],
-    2: ["triad","sus2","sus4","cluster1","cluster2","cluster3","triad+2","triad+4","interval2","interval3","interval4","interval5"],
-    3: ["triad","sus2","sus4","quartal","cluster1","cluster2","cluster3","triad+2","triad+4","7th","7thsus4","interval2","interval3","interval4","interval5","interval6"],
-    4: ["triad","sus2","sus4","quartal","cluster1","cluster2","cluster3","triad+2","triad+4","7th","7thsus4","special1","special2","interval2","interval3","interval4","interval5","interval6","interval7"]
+    0: ["cluster1", "cluster2", "interval2", "interval3"],
+    1: ["triad", "sus2", "sus4", "quartal", "cluster1", "cluster2", "triad+2", "triad+4", "7th", "7thsus4", "interval2", "interval3", "interval4"],
+    2: ["triad", "sus2", "sus4", "cluster1", "cluster2", "triad+2", "triad+4", "interval2", "interval3", "interval4", "interval5"],
+    3: ["triad", "sus2", "sus4", "quartal", "cluster1", "cluster2", "triad+2", "triad+4", "7th", "7thsus4", "interval2", "interval3", "interval4", "interval5", "interval6"],
+    4: ["triad", "sus2", "sus4", "quartal", "cluster1", "cluster2", "triad+2", "triad+4", "7th", "7thsus4", "special1", "special2", "interval2", "interval3", "interval4", "interval5", "interval6", "interval7"]
 };
 
 var fallbackByMode = {
@@ -44,17 +44,22 @@ var menuIndexBySize = {
 // Message: "greyed_sizes 7 8" → disables 7-note & 8-note in the menu
 function greyed_sizes() {
     var args = arrayfromargs(arguments);
-    var unavailable = args.map(function(x){ return parseInt(x); });
+    var unavailable = args.map(function (x) { return parseInt(x); });
     var allSizes = [4, 5, 6, 7, 8];
 
-    allSizes.forEach(function(size) {
+    allSizes.forEach(function (size) {
         var idx = menuIndexBySize[size];
         if (typeof idx !== "undefined") {
             if (unavailable.indexOf(size) !== -1) {
-                menu.message("enableitem", idx, 0); // deactivate (grey out)
+                // live.menu syntax
+                menu.message("enableitem", idx, 0);
+                // umenu syntax (1 = disabled)
+                menu.message("disableitem", idx, 1);
             } else {
-                menu.message("enableitem", idx, 1); // reactivate
-                post("HELLLLLLLLO","Re-enabled size:", size, "\n");
+                // live.menu syntax
+                menu.message("enableitem", idx, 1);
+                // umenu syntax (0 = enabled)
+                menu.message("disableitem", idx, 0);
             }
         }
     });
@@ -72,16 +77,24 @@ function getActiveButtons() {
     return on;
 }
 
+var isStartup = true;
+
 function msg_int(mode) {
-    if (mode < 0 || mode > 4) { 
-        post("Invalid mode:", mode, "\n"); 
-        return; 
+    if (mode < 0 || mode > 4) {
+        post("Invalid mode:", mode, "\n");
+        return;
     }
 
     outlet(1, mode);
 
     var allowed = groups[mode] || [];
     var currentOn = getActiveButtons();
+
+    // Override Ableton's saved UI state explicitly on the first mode pass
+    if (isStartup) {
+        currentOn = ["triad"];
+        isStartup = false;
+    }
 
     // --- Determine which buttons to turn off/on ---
     var toTurnOff = [];
@@ -127,27 +140,5 @@ function msg_int(mode) {
         if (o1) o1.message(1);
     }
 
-    // --- UI SYNC ---
-    for (var m = 0; m < allButtons.length; m++) {
-        var oA = this.patcher.getnamed(allButtons[m]);
-        if (oA) {
-            oA.message("set", 0);
-            oA.message("active", 0);
-            oA.message("ignoreclick", 1);
-        }
-    }
-
-    for (var n = 0; n < allowed.length; n++) {
-        var oB = this.patcher.getnamed(allowed[n]);
-        if (oB) {
-            oB.message("active", 1);
-            oB.message("ignoreclick", 0);
-        }
-    }
-
-    for (var p = 0; p < keepActive.length; p++) {
-        var oC = this.patcher.getnamed(keepActive[p]);
-        if (oC) oC.message("set", 1);
-    }
 }
 

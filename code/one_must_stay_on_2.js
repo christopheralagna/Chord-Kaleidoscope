@@ -58,8 +58,10 @@ function loadbang() {
   initGroup(dropButtons, dropStates, "dropVoicings");
   post("Initial invStates:", JSON.stringify(invStates), "\n");
   post("Initial dropStates:", JSON.stringify(dropStates), "\n");
-  updateDict("inv0", "inversions");
-  updateDict("no_drop", "dropVoicings");
+  //updateDict("inv0", "inversions");
+  //updateDict("no_drop", "dropVoicings");
+  updateDictForGroup(inversionButtons, invStates, "inversions");
+  updateDictForGroup(dropButtons, dropStates, "dropVoicings");
 }
 
 function initGroup(buttons, states, label) {

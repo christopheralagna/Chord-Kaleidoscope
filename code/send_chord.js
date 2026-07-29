@@ -82,6 +82,7 @@ function msg_int(v) {
         defaultVelocity = v;
     }
 }
+
 /*
 // Handle bangs from various inlets
 function bang() {
