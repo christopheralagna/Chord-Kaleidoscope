@@ -35,25 +35,25 @@ function applyOptions(chord, inversions, drops) {
 
     var invOffset = inversions[invKey];
     var dropOffset = drops[dropKey];
-    
+
     // 1. Apply inversion
     var voiced = [];
     for (var i = 0; i < chord.length; i++) {
         var ai = (invOffset && invOffset[i] != null) ? invOffset[i] : 0;
         voiced.push(chord[i] + ai);
     }
-    
+
     // 2. Sort numerically
-    voiced.sort(function(a, b) { return a - b; });
-    
+    voiced.sort(function (a, b) { return a - b; });
+
     // 3. Apply drop
     for (var j = 0; j < voiced.length; j++) {
         var bj = (dropOffset && dropOffset[j] != null) ? dropOffset[j] : 0;
         voiced[j] += bj;
     }
-    
+
     // 4. Sort numerically again
-    voiced.sort(function(a, b) { return a - b; });
+    voiced.sort(function (a, b) { return a - b; });
 
     return voiced;
 }
@@ -111,8 +111,8 @@ function list() {
         var chordCopy = baseChord.slice ? baseChord.slice(0) : baseChord;
         //var noteType = (chordCopy.length === 3) ? "3NoteVoicing" : "4NoteVoicing";
         var noteType =
-            (chord.length === 2) ? "2NoteVoicing" :
-                (chord.length === 3) ? "3NoteVoicing" :
+            (chordCopy.length === 2) ? "2NoteVoicing" :
+                (chordCopy.length === 3) ? "3NoteVoicing" :
                     "4NoteVoicing";
         var invKey = noteType + "::inversions";
         var dropKey = noteType + "::dropVoicings";
