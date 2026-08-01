@@ -28,27 +28,33 @@ function getRandomKey(obj) {
     return keys[Math.floor(Math.random() * keys.length)];
 }
 
-function cumulativeAdjust(a, b) {
-    var n = Math.max(a ? a.length : 0, b ? b.length : 0);
-    var out = [];
-    for (var i = 0; i < n; i++) {
-        var ai = (a && a[i] != null) ? a[i] : 0;
-        var bi = (b && b[i] != null) ? b[i] : 0;
-        out.push(ai + bi);
-    }
-    return out;
-}
-
 function applyOptions(chord, inversions, drops) {
     var invKey = getRandomKey(inversions);
     var dropKey = getRandomKey(drops);
     if (invKey === null || dropKey === null) return chord;
 
-    var adj = cumulativeAdjust(inversions[invKey], drops[dropKey]);
+    var invOffset = inversions[invKey];
+    var dropOffset = drops[dropKey];
+    
+    // 1. Apply inversion
     var voiced = [];
     for (var i = 0; i < chord.length; i++) {
-        voiced.push(chord[i] + (adj[i] || 0));
+        var ai = (invOffset && invOffset[i] != null) ? invOffset[i] : 0;
+        voiced.push(chord[i] + ai);
     }
+    
+    // 2. Sort numerically
+    voiced.sort(function(a, b) { return a - b; });
+    
+    // 3. Apply drop
+    for (var j = 0; j < voiced.length; j++) {
+        var bj = (dropOffset && dropOffset[j] != null) ? dropOffset[j] : 0;
+        voiced[j] += bj;
+    }
+    
+    // 4. Sort numerically again
+    voiced.sort(function(a, b) { return a - b; });
+
     return voiced;
 }
 
