@@ -17,15 +17,15 @@ var dropStates = [1, 0, 0];
 // --- Mapping tables ---
 var inversionMap3Note = {
   "inv0": [0, 0, 0],
-  "inv1": [0, 0, -12],
-  "inv2": [0, -12, -12]
+  "inv1": [12, 0, 0],
+  "inv2": [12, 12, 0]
 };
 
 var inversionMap4Note = {
   "inv0": [0, 0, 0, 0],
-  "inv1": [0, 0, 0, -12],
-  "inv2": [0, 0, -12, -12],
-  "inv3": [0, -12, -12, -12]
+  "inv1": [12, 0, 0, 0],
+  "inv2": [12, 12, 0, 0],
+  "inv3": [12, 12, 12, 0]
 };
 
 var dropMap3Note = {
@@ -41,7 +41,7 @@ var dropMap4Note = {
 
 var inversionMap2Note = {
   "inv0": [0, 0],
-  "inv1": [0, -12]
+  "inv1": [12, 0]
 };
 
 var dropMap2Note = {

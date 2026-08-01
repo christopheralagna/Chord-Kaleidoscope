@@ -1,37 +1,103 @@
 {
 	"2NoteVoicing": {
-	  "inversions": {
-		"none": [0, 0],
-		"1st_inversion": [0, -12]
-	  },
-	  "dropVoicings": {
-		"none": [0, 0],
-		"drop2": [-12, 0]
-	  }
+		"inversions": {
+			"none": [
+				0,
+				0
+			],
+			"1st_inversion": [
+				12,
+				0
+			]
+		},
+		"dropVoicings": {
+			"none": [
+				0,
+				0
+			],
+			"drop2": [
+				-12,
+				0
+			]
+		}
 	},
 	"3NoteVoicing": {
-	  "inversions": {
-		"none": [0, 0, 0],
-		"1st_inversion": [0, 0, -12],
-		"2nd_inversion": [0, -12, -12]
-	  },
-	  "dropVoicings": {
-		"none": [0, 0, 0],
-		"drop2": [0, -12, 0]
-	  }
+		"inversions": {
+			"none": [
+				0,
+				0,
+				0
+			],
+			"1st_inversion": [
+				12,
+				0,
+				0
+			],
+			"2nd_inversion": [
+				12,
+				12,
+				0
+			]
+		},
+		"dropVoicings": {
+			"none": [
+				0,
+				0,
+				0
+			],
+			"drop2": [
+				0,
+				-12,
+				0
+			]
+		}
 	},
 	"4NoteVoicing": {
-	  "inversions": {
-		"none": [0, 0, 0, 0],
-		"1st_inversion": [0, 0, 0, -12],
-		"2nd_inversion": [0, 0, -12, -12],
-		"3rd_inversion": [0, -12, -12, -12]
-	  },
-	  "dropVoicings": {
-		"none": [0, 0, 0, 0],
-		"drop2": [0, 0, -12, 0],
-		"drop3": [0, -12, 0, 0]
-	  }
+		"inversions": {
+			"none": [
+				0,
+				0,
+				0,
+				0
+			],
+			"1st_inversion": [
+				12,
+				0,
+				0,
+				0
+			],
+			"2nd_inversion": [
+				12,
+				12,
+				0,
+				0
+			],
+			"3rd_inversion": [
+				12,
+				12,
+				12,
+				0
+			]
+		},
+		"dropVoicings": {
+			"none": [
+				0,
+				0,
+				0,
+				0
+			],
+			"drop2": [
+				0,
+				0,
+				-12,
+				0
+			],
+			"drop3": [
+				0,
+				-12,
+				0,
+				0
+			]
+		}
 	}
 }
-  
