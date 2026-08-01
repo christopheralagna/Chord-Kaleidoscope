@@ -140,5 +140,27 @@ function msg_int(mode) {
         if (o1) o1.message(1);
     }
 
+    // --- UI SYNC ---
+    for (var m = 0; m < allButtons.length; m++) {
+        var oA = this.patcher.getnamed(allButtons[m]);
+        if (oA) {
+            oA.message("set", 0);
+            oA.message("active", 0);
+            oA.message("ignoreclick", 1);
+        }
+    }
+
+    for (var n = 0; n < allowed.length; n++) {
+        var oB = this.patcher.getnamed(allowed[n]);
+        if (oB) {
+            oB.message("active", 1);
+            oB.message("ignoreclick", 0);
+        }
+    }
+
+    for (var p = 0; p < keepActive.length; p++) {
+        var oC = this.patcher.getnamed(keepActive[p]);
+        if (oC) oC.message("set", 1);
+    }
 }
 
