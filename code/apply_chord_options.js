@@ -31,10 +31,10 @@ function getRandomKey(obj) {
 function applyOptions(chord, inversions, drops) {
     var invKey = getRandomKey(inversions);
     var dropKey = getRandomKey(drops);
-    if (invKey === null || dropKey === null) return chord;
 
-    var invOffset = inversions[invKey];
-    var dropOffset = drops[dropKey];
+    // Default to an empty offset array if no valid options are found
+    var invOffset = (invKey !== null) ? inversions[invKey] : [];
+    var dropOffset = (dropKey !== null) ? drops[dropKey] : [];
 
     // 1. Apply inversion
     var voiced = [];

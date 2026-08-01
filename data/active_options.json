@@ -1,18 +1,23 @@
 {
   "3NoteVoicing": {
     "inversions": {
-      "inv0": [0, 0, 0]
+      "inv0": [
+        0,
+        0,
+        0
+      ]
     },
-    "dropVoicings": {
-      "no_drop": [0, 0, 0]
-    }
+    "dropVoicings": {}
   },
   "4NoteVoicing": {
     "inversions": {
-      "inv0": [0, 0, 0, 0]
+      "inv0": [
+        0,
+        0,
+        0,
+        0
+      ]
     },
-    "dropVoicings": {
-      "no_drop": [0, 0, 0, 0]
-    }
+    "dropVoicings": {}
   }
 }

@@ -7,12 +7,11 @@ inlets = 1;
 outlets = 0;
 
 // --- Groups ---
-var inversionButtons = ["inv0", "inv1", "inv2", "inv3"];
-var dropButtons = ["no_drop", "drop2", "drop3"];
+var allSpreadButtons = ["inv0", "inv1", "inv2", "inv3", "drop2", "drop3"];
+var allSpreadStates = [1, 0, 0, 0, 0, 0]; // Only inv0 is ON
 
-// --- States ---
-var invStates = [1, 0, 0, 0];
-var dropStates = [1, 0, 0];
+var inversionButtons = ["inv0", "inv1", "inv2", "inv3"];
+var dropButtons = ["drop2", "drop3"];
 
 // --- Mapping tables ---
 var inversionMap3Note = {
@@ -29,12 +28,10 @@ var inversionMap4Note = {
 };
 
 var dropMap3Note = {
-  "no_drop": [0, 0, 0],
   "drop2": [0, -12, 0]
 };
 
 var dropMap4Note = {
-  "no_drop": [0, 0, 0, 0],
   "drop2": [0, 0, -12, 0],
   "drop3": [0, -12, 0, 0]
 };
@@ -45,7 +42,6 @@ var inversionMap2Note = {
 };
 
 var dropMap2Note = {
-  "no_drop": [0, 0],
   "drop2": [-12, 0]
 };
 
@@ -54,23 +50,16 @@ var dropMap2Note = {
 // ============================================================
 function loadbang() {
   post("\n==== one_must_stay_on_spreads_debug_v5.js LOADED ====\n");
-  initGroup(inversionButtons, invStates, "inversions");
-  initGroup(dropButtons, dropStates, "dropVoicings");
-  post("Initial invStates:", JSON.stringify(invStates), "\n");
-  post("Initial dropStates:", JSON.stringify(dropStates), "\n");
-  //updateDict("inv0", "inversions");
-  //updateDict("no_drop", "dropVoicings");
-  updateDictForGroup(inversionButtons, invStates, "inversions");
-  updateDictForGroup(dropButtons, dropStates, "dropVoicings");
+  initGroup(allSpreadButtons, allSpreadStates);
+  updateDictForAll();
 }
 
-function initGroup(buttons, states, label) {
+function initGroup(buttons, states) {
   for (var i = 0; i < buttons.length; i++) {
     var o = this.patcher.getnamed(buttons[i]);
-    var on = (i === 0) ? 1 : 0;
-    states[i] = on;
+    var on = states[i];
     if (o) o.message("set", on);
-    post("Init", label + ":", buttons[i], "=", on, "\n");
+    post("Init", buttons[i], "=", on, "\n");
   }
 }
 
@@ -90,78 +79,54 @@ function anything() {
 // CORE BEHAVIOR
 // ============================================================
 function handleButton(name, val) {
-  post("\n\n--- handleButton ---\n");
-  post("Button:", name, "| Value:", val, "\n");
-
-  if (inversionButtons.indexOf(name) != -1)
-    updateGroup(name, val, inversionButtons, invStates, "inversions");
-  else if (dropButtons.indexOf(name) != -1)
-    updateGroup(name, val, dropButtons, dropStates, "dropVoicings");
-  else
-    post("⚠️ Unknown button name:", name, "\n");
-}
-
-function updateGroup(name, val, btns, states, category) {
-  post("→ updateGroup:", category, "button", name, "val:", val, "\n");
-  var idx = btns.indexOf(name);
-  if (idx == -1) {
-    post("⚠️ Couldn't find button index for", name, "\n");
-    return;
-  }
+  var idx = allSpreadButtons.indexOf(name);
+  if (idx == -1) return;
 
   var newVal = val ? 1 : 0;
 
-  // Count total actives BEFORE change
   var totalActive = 0;
-  for (var i = 0; i < states.length; i++) totalActive += states[i];
-  post("Active before click:", totalActive, " | States:", JSON.stringify(states), "\n");
+  for (var i = 0; i < allSpreadStates.length; i++) totalActive += allSpreadStates[i];
 
-  // === Prevent deselecting the last active button ===
-  if (totalActive === 1 && newVal === 0 && states[idx] === 1) {
+  if (totalActive === 1 && newVal === 0 && allSpreadStates[idx] === 1) {
     var o = this.patcher.getnamed(name);
     if (o) {
       o.message("ignoreclick", 1);
       o.message("set", 1);
       o.message("ignoreclick", 0);
     }
-    post("⚠️ Attempted to deselect last active in group:", category, "→ prevented!\n");
     return;
   }
 
-  // === Toggle this button normally ===
-  states[idx] = newVal;
-
-  post("Updated group states:", JSON.stringify(states), "\n");
-
-  // Update dict with *all* currently active buttons
-  updateDictForGroup(btns, states, category);
+  allSpreadStates[idx] = newVal;
+  updateDictForAll();
 }
-
 
 // ============================================================
 // DICT UPDATES
 // ============================================================
-function updateDictForGroup(btns, states, category) {
-  post("\n--- updateDictForGroup ---\n");
-  post("Category:", category, "\n");
-
+function updateDictForAll() {
   var d = new Dict("active_options");
-  ensurePath(d, "2NoteVoicing::" + category);
-  ensurePath(d, "3NoteVoicing::" + category);
-  ensurePath(d, "4NoteVoicing::" + category);
+  ensurePath(d, "2NoteVoicing::inversions");
+  ensurePath(d, "3NoteVoicing::inversions");
+  ensurePath(d, "4NoteVoicing::inversions");
+  ensurePath(d, "2NoteVoicing::dropVoicings");
+  ensurePath(d, "3NoteVoicing::dropVoicings");
+  ensurePath(d, "4NoteVoicing::dropVoicings");
 
-  // Clear all existing keys in this category
-  for (var i = 0; i < btns.length; i++) {
-    var n = btns[i];
+  // Clear all existing keys for the managed buttons
+  for (var i = 0; i < allSpreadButtons.length; i++) {
+    var n = allSpreadButtons[i];
+    var category = inversionButtons.indexOf(n) != -1 ? "inversions" : "dropVoicings";
     d.remove("2NoteVoicing::" + category + "::" + n);
     d.remove("3NoteVoicing::" + category + "::" + n);
     d.remove("4NoteVoicing::" + category + "::" + n);
   }
 
   // Write all currently active states
-  for (var i = 0; i < btns.length; i++) {
-    if (states[i] === 1) {
-      var n = btns[i];
+  for (var i = 0; i < allSpreadButtons.length; i++) {
+    if (allSpreadStates[i] === 1) {
+      var n = allSpreadButtons[i];
+      var category = inversionButtons.indexOf(n) != -1 ? "inversions" : "dropVoicings";
 
       var data2 = getMapData(n, category, 2);
       var data3 = getMapData(n, category, 3);
@@ -170,12 +135,8 @@ function updateDictForGroup(btns, states, category) {
       if (data2) d.replace("2NoteVoicing::" + category + "::" + n, data2);
       if (data3) d.replace("3NoteVoicing::" + category + "::" + n, data3);
       if (data4) d.replace("4NoteVoicing::" + category + "::" + n, data4);
-
-      post("✅ Active:", n, "→ added to dict\n");
     }
   }
-
-  post("Dict after update:\n", d.stringify(), "\n");
 }
 
 
