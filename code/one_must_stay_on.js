@@ -89,6 +89,7 @@ function resetStates() {
     states[i] = (i == 0) ? 1 : 0;
   }
 
+  outlet(0, "clear");
   var notes = chordMap[buttons[0]] || [];
   outlet(0, ["set", buttons[0]].concat(notes));
 }

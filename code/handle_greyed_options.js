@@ -78,6 +78,8 @@ function getActiveButtons() {
 }
 
 var isStartup = true;
+var startupMode = -1;
+var startupTask = new Task(forceStartupOverride, this);
 
 function msg_int(mode) {
     if (mode < 0 || mode > 4) {
@@ -87,16 +89,37 @@ function msg_int(mode) {
 
     outlet(1, mode);
 
+    if (isStartup) {
+        startupMode = mode;
+        // Wait a short time for all Live parameters to finish restoring
+        startupTask.schedule(200);
+        return;
+    }
+
+    doModeUpdate(mode);
+}
+
+function forceStartupOverride() {
+    isStartup = false;
+    var currentOn = getActiveButtons();
+    var allowed = groups[startupMode] || [];
+
+    var toTurnOff = [];
+    for (var i = 0; i < currentOn.length; i++) {
+        if (currentOn[i] !== "triad") {
+            toTurnOff.push(currentOn[i]);
+        }
+    }
+
+    var keepActive = ["triad"];
+
+    applyChanges(toTurnOff, keepActive, allowed);
+}
+
+function doModeUpdate(mode) {
     var allowed = groups[mode] || [];
     var currentOn = getActiveButtons();
 
-    // Override Ableton's saved UI state explicitly on the first mode pass
-    if (isStartup) {
-        currentOn = ["triad"];
-        isStartup = false;
-    }
-
-    // --- Determine which buttons to turn off/on ---
     var toTurnOff = [];
     var keepActive = [];
 
@@ -109,10 +132,8 @@ function msg_int(mode) {
 
     // --- Fallback protection (for chord buttons only) ---
     if (keepActive.length === 0 && allowed.length) {
-        // avoid choosing interval buttons as fallback
         var fb = fallbackByMode[mode] || allowed[0];
         if (fb.indexOf("interval") !== -1) {
-            // if fallback is an interval, pick first non-interval allowed button
             for (var f = 0; f < allowed.length; f++) {
                 if (allowed[f].indexOf("interval") === -1) {
                     fb = allowed[f];
@@ -123,6 +144,10 @@ function msg_int(mode) {
         keepActive = [fb];
     }
 
+    applyChanges(toTurnOff, keepActive, allowed);
+}
+
+function applyChanges(toTurnOff, keepActive, allowed) {
     // --- OUTPUT CHANGES ---
     // turn off disallowed
     for (var t = 0; t < toTurnOff.length; t++) {
