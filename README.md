@@ -1,4 +1,4 @@
-This is a Max for Live MIDI plugin currently titled MIDI Companion, although I'd like to change the name to Chord Kaleidoscope. It is a mature app approaching completion.
+An original Max for Live app, Chord Kaleidoscope, is a creative MIDI chord generator reactive to the melodies of realtime playing, for creative exploration and compositional inspiration
 
 Purpose:
 - Generate chords from incoming MIDI
