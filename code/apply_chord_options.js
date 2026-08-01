@@ -154,17 +154,7 @@ function list() {
 
         outputChord = applyOptions(chord, inversions2, drops2);
 
-
-
-        if (addSpread) {
-            var spread = [];
-            for (var i = 0; i < outputChord.length; i++) {
-                spread.push((i % 2 === 1) ? outputChord[i] - 12 : outputChord[i]);
-            }
-            outputChord = spread;
-        }
-
-        outlet(1, outputChord); // update memory when unlocked
+        outlet(1, chord); // update memory with the RAW chord when unlocked
     }
 
     // ---------------- OUTPUT ----------------
