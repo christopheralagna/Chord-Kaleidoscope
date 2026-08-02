@@ -7,11 +7,11 @@ inlets = 1;
 outlets = 0;
 
 // --- Groups ---
-var allSpreadButtons = ["inv0", "inv1", "inv2", "inv3", "drop2", "drop3"];
-var allSpreadStates = [1, 0, 0, 0, 0, 0]; // Only inv0 is ON
+var allSpreadButtons = ["inv0", "inv1", "inv2", "inv3", "no_drop", "drop2", "drop3"];
+var allSpreadStates = [1, 0, 0, 0, 1, 0, 0]; // inv0 and no_drop are ON by default
 
 var inversionButtons = ["inv0", "inv1", "inv2", "inv3"];
-var dropButtons = ["drop2", "drop3"];
+var dropButtons = ["no_drop", "drop2", "drop3"];
 
 // --- Mapping tables ---
 var inversionMap3Note = {
@@ -28,10 +28,12 @@ var inversionMap4Note = {
 };
 
 var dropMap3Note = {
+  "no_drop": [0, 0, 0],
   "drop2": [0, -12, 0]
 };
 
 var dropMap4Note = {
+  "no_drop": [0, 0, 0, 0],
   "drop2": [0, 0, -12, 0],
   "drop3": [0, -12, 0, 0]
 };
@@ -42,6 +44,7 @@ var inversionMap2Note = {
 };
 
 var dropMap2Note = {
+  "no_drop": [0, 0],
   "drop2": [-12, 0]
 };
 
@@ -84,10 +87,22 @@ function handleButton(name, val) {
 
   var newVal = val ? 1 : 0;
 
-  var totalActive = 0;
-  for (var i = 0; i < allSpreadStates.length; i++) totalActive += allSpreadStates[i];
+  // Determine which group this button belongs to
+  var isInv = (inversionButtons.indexOf(name) != -1);
+  var groupButtons = isInv ? inversionButtons : dropButtons;
 
-  if (totalActive === 1 && newVal === 0 && allSpreadStates[idx] === 1) {
+  // Count active buttons in this specific group
+  var groupActive = 0;
+  for (var i = 0; i < groupButtons.length; i++) {
+    var bName = groupButtons[i];
+    var bIdx = allSpreadButtons.indexOf(bName);
+    if (bIdx != -1) {
+      groupActive += allSpreadStates[bIdx];
+    }
+  }
+
+  // Prevent turning off the last active button in its group
+  if (groupActive === 1 && newVal === 0 && allSpreadStates[idx] === 1) {
     var o = this.patcher.getnamed(name);
     if (o) {
       o.message("ignoreclick", 1);
