@@ -46,7 +46,6 @@ function voiceLead(chord, octave, scale) {
 for (var i = 0; i < 10; i++) {
     chord = chordAndOctave[0];
     octave = chordAndOctave[1];
-    console.log(chord, octave);
     chordAndOctave = voiceLead(chord, octave, scale);
 }
 
@@ -68,7 +67,6 @@ function voiceLead(chord, octave, scale) {
         const currentNoteIndex = scale.indexOf(currentNote);
 
         if (currentNoteIndex === -1) {
-            console.error(`Note ${currentNote} not found in scale`);
             return [chord, octave];
         }
 
@@ -111,7 +109,6 @@ function voiceLead(chord, octave, scale) {
 
 // Simulate voice leading over multiple iterations
 for (let i = 0; i < 10; i++) {
-    console.log("Chord:", chord, "Octave:", octave);
     [chord, octave] = voiceLead(chord, octave, scale);
 }
 
@@ -132,7 +129,6 @@ function voiceLead(chord, octave, scale) {
         const currentNoteIndex = scale.indexOf(currentNote);
 
         if (currentNoteIndex === -1) {
-            console.error(`Note ${currentNote} not found in scale`);
             return [chord, octave];
         }
 
@@ -191,7 +187,6 @@ function voiceLead(chord, octave, scale) {
 
 // Simulate voice leading over multiple iterations
 for (let i = 0; i < 10; i++) {
-    console.log("Chord:", chord, "Octave:", octave);
     [chord, octave] = voiceLead(chord, octave, scale);
 }
 */
@@ -210,7 +205,6 @@ function voiceLead(chord, octave, scale) {
         const currentNoteIndex = scale.indexOf(currentNote);
 
         if (currentNoteIndex === -1) {
-            console.error(`Note ${currentNote} not found in scale`);
             return [chord, octave];
         }
 
@@ -279,6 +273,5 @@ function voiceLead(chord, octave, scale) {
 
 // Simulate voice leading over multiple iterations
 for (let i = 0; i < 100; i++) {
-    console.log("Chord:", chord, "Octave:", octave);
     [chord, octave] = voiceLead(chord, octave, scale);
 }

@@ -17,7 +17,6 @@ function getNewNoteCount() {
     // Safely parse noteCountSettings
     var noteCountSettings = getParsedDictValue(generateModeDict, "noteCountSettings");
     if (!noteCountSettings) {
-        post("Error: noteCountSettings is missing or invalid\n");
         return 0; // Default to 0 if settings are not found
     }
     
@@ -32,14 +31,12 @@ function getNewNoteCount() {
         var max = noteCountSettings["max"] || min;
         
         if (min >= max) {
-            post("Warning: min is greater than or equal to max in variable count\n");
             return min; // Return min if range is invalid
         }
         
         return Math.floor(Math.random() * (max - min + 1)) + min; // Inclusive range
     }
     
-    post("Warning: generationPerNoteCount has an unrecognized value\n");
     return 0; // Default fallback
 }
 
@@ -49,7 +46,6 @@ function list() {
         var generateMode = getParsedDictValue(generateModeDict, "generateMode");
         
         if (!generateMode) {
-            post("Error: generateMode is missing or invalid\n");
             return;
         }
         
@@ -67,7 +63,6 @@ function list() {
             }
         }
     } catch (err) {
-        post("Error: " + err.message + "\n"); // Log errors for debugging
     }
 }
 

@@ -20,7 +20,7 @@ function msg_int(v) {
     // also directly control the UI element if named
     var o = this.patcher.getnamed("add_spread");
     if (o) {
-        o.message("active", state);
+        if (o.maxclass !== "live.comment") o.message("active", state);
     } else {
     }
 }

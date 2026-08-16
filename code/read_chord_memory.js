@@ -12,7 +12,6 @@ var maxChords = 5;
 
 function selected(slot) {
     // Optional: update a UI highlight for the selected chord
-    post("UI: Selected chord slot " + slot + "\n");
 
     // You can output this to an outlet if needed:
     outlet(1, ["highlight", slot]); 
@@ -25,7 +24,7 @@ function getChord(key) {
     if (!val) return [];
     if (val instanceof Dict) {
         try { return JSON.parse(val.stringify()); } 
-        catch(e) { post("Error parsing " + key + ": " + e + "\n"); return []; }
+        catch(e) { return []; }
     }
     return val;
 }
@@ -37,10 +36,8 @@ function bang() {
         var chord = getChord(key);
         if (Array.isArray(chord) && chord.length > 0) {
             outlet(i - 1, chord); // send list to outlet
-            post("Output " + key + ": " + chord + "\n");
         } else {
             outlet(i - 1, []); // send empty list if none
         }
     }
-    post("✅ Updated chord memory output\n");
 }

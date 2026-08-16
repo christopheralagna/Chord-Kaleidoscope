@@ -63,8 +63,6 @@ function greyed_sizes() {
             }
         }
     });
-
-    post("Menu updated — disabled: " + unavailable.join(", ") + "\n");
 }
 
 function getActiveButtons() {
@@ -83,7 +81,6 @@ var startupTask = new Task(forceStartupOverride, this);
 
 function msg_int(mode) {
     if (mode < 0 || mode > 4) {
-        post("Invalid mode:", mode, "\n");
         return;
     }
 
@@ -170,7 +167,7 @@ function applyChanges(toTurnOff, keepActive, allowed) {
         var oA = this.patcher.getnamed(allButtons[m]);
         if (oA) {
             oA.message("set", 0);
-            oA.message("active", 0);
+            if (oA.maxclass !== "live.comment") oA.message("active", 0);
             oA.message("ignoreclick", 1);
         }
     }
@@ -178,7 +175,7 @@ function applyChanges(toTurnOff, keepActive, allowed) {
     for (var n = 0; n < allowed.length; n++) {
         var oB = this.patcher.getnamed(allowed[n]);
         if (oB) {
-            oB.message("active", 1);
+            if (oB.maxclass !== "live.comment") oB.message("active", 1);
             oB.message("ignoreclick", 0);
         }
     }

@@ -80,7 +80,6 @@ function msg_int(v) {
 
     if (inlet == 3) {
         reactive_mode = (v != 0);
-        post("Reactive mode set to:", reactive_mode, "\n");
     }
 }
 

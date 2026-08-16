@@ -18,7 +18,6 @@ var prevLockScale = 0; // remembers user's original scale lock state
 // ============================================================
 function loadbang() {
     prevLockScale = globalSettings.get("lock_scale") || 0;
-    post("[lock_linker_ui] Loaded | Initial lock_scale =", prevLockScale, "\n");
     syncUI();
 }
 
@@ -40,19 +39,17 @@ function msg_int(v) {
             globalSettings.set("lock_scale", 1);
             outlet(0, 1); // force scale ON visually
         }
-        post("[lock_linker_ui] lock_chords ON → forcing lock_scale ON\n");
 
         // Disable user interaction with scale UI
         var o = this.patcher.getnamed("lock_scale");
         if (o) {
             o.message("ignoreclick", 1);
-            o.message("active", 0); // visually gray it out
+            if (o.maxclass !== "live.comment") o.message("active", 0); // visually gray it out
         }
 
     } else {
         // --- Chord lock OFF ---
         globalSettings.set("lock_scale", prevLockScale);
-        post("[lock_linker_ui] lock_chords OFF → restoring lock_scale =", prevLockScale, "\n");
         outlet(0, prevLockScale); // restore UI
         outlet(1, 0); // update chord UI
 
@@ -60,7 +57,7 @@ function msg_int(v) {
         var o2 = this.patcher.getnamed("lock_scale");
         if (o2) {
             o2.message("ignoreclick", 0);
-            o2.message("active", 1);
+            if (o2.maxclass !== "live.comment") o2.message("active", 1);
         }
     }
 
@@ -91,14 +88,12 @@ function syncUI() {
     if (o) {
         if (lockMem === 1) {
             o.message("ignoreclick", 1);
-            o.message("active", 0);
+            if (o.maxclass !== "live.comment") o.message("active", 0);
         } else {
             o.message("ignoreclick", 0);
-            o.message("active", 1);
+            if (o.maxclass !== "live.comment") o.message("active", 1);
         }
     }
-
-    post("[lock_linker_ui] Synced UI → lock_scale:", lockScale, "| lock_chords:", lockMem, "\n");
 }
 
 
@@ -123,7 +118,6 @@ var prevLockScale = 0;
 // --- Initialization ---
 function loadbang() {
     prevLockScale = globalSettings.get("lock_scale") || 0;
-    post("[lock_linker_ui] Loaded | Initial lock_scale =", prevLockScale, "\n");
 
     // Sync UI at load time
     syncUI();
@@ -141,14 +135,11 @@ function msg_int(v) {
         prevLockScale = lockScale;
         if (lockScale === 0) {
             globalSettings.set("lock_scale", 1);
-            post("[lock_linker_ui] lock_chords ON → forcing lock_scale ON\n");
             outlet(0, 1); // update UI for lock_scale
         } else {
-            post("[lock_linker_ui] lock_chords ON → lock_scale already ON\n");
         }
     } else {
         globalSettings.set("lock_scale", prevLockScale);
-        post("[lock_linker_ui] lock_chords OFF → restoring lock_scale =", prevLockScale, "\n");
         outlet(0, prevLockScale); // restore UI for lock_scale
     }
 
@@ -169,6 +160,5 @@ function syncUI() {
 
     outlet(0, lockScale);
     outlet(1, lockMem);
-    post("[lock_linker_ui] Synced UI → lock_scale:", lockScale, "| lock_chords:", lockMem, "\n");
 }
 */

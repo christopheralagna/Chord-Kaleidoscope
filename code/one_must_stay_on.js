@@ -140,7 +140,6 @@ function handleButton(name, val) {
 
 // ===== MODE CHANGES =====
 function msg_int(mode) {
-  post("hello");
   if (inlet != 1) return;
   if (!states || states.length == 0) resetStates();
 
@@ -150,19 +149,20 @@ function msg_int(mode) {
   for (var i = 0; i < buttons.length; i++) {
     var name = buttons[i];
     var o = this.patcher.getnamed(name);
-    post(o);
     if (!o) continue;
 
     var allowedHere = (allowed.indexOf(name) != -1);
     if (!allowedHere) {
-      post("removing", name, "/n");
-      outlet(0, ["remove", name]);
+      var d = new Dict("active_voicings");
+      if (d.contains(name)) {
+        outlet(0, ["remove", name]);
+      }
       o.message("set", 0);
-      o.message("active", 0);
+      if (o.maxclass !== "live.comment") o.message("active", 0);
       o.message("ignoreclick", 1);
       states[i] = 0;
     } else {
-      o.message("active", 1);
+      if (o.maxclass !== "live.comment") o.message("active", 1);
       o.message("ignoreclick", 0);
     }
   }
@@ -183,3 +183,4 @@ function msg_int(mode) {
     }
   }
 }
+

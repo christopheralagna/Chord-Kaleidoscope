@@ -63,25 +63,20 @@ function processSets(input, sets) {
         try {
             input = Array.prototype.slice.call(input);
         } catch (e) {
-            post("⚠️ Invalid input, using empty array\n");
             input = [];
         }
     }
 
     // Load sets automatically if missing or invalid
     if (!sets || !Array.isArray(sets) || sets.length === 0) {
-        post("ℹ️ Loading sets internally...\n");
         sets = loadSets();
     }
 
     currentScale = input.slice();
 
     if (!Array.isArray(sets) || !Array.isArray(sets[0])) {
-        post("❌ Invalid sets data; aborting process.\n");
         return;
     }
-
-    post("🔍 Processing input:", input, "with target size:", exactSetSize, "\n");
 
     // Filter sets normally
     var result = sets.filter(function (set) {
@@ -105,7 +100,6 @@ function processSets(input, sets) {
         if (yLen < 4) yLen = 4;
         if (yLen > 8) yLen = 8;
 
-        post("⚠️ No matches found for " + exactSetSize + "-note sets. Falling back to length " + yLen + "\n");
         exactSetSize = yLen;
 
         // Output the new scaleMenu index out of outlet 3 (menu index = exactSetSize - 4)
@@ -172,7 +166,6 @@ function checkScaleSizeAvailability(input, sets) {
 
 function checkScaleSizeAvailabilityHandler() {
     var inputList = arrayfromargs(arguments);
-    post("✅ Received inputList:", inputList, "\n");
     checkScaleSizeAvailability(inputList, loadSets());
 }
 
@@ -190,9 +183,6 @@ function storeAndOutput(result) {
     if (numberOfEntries > 0) {
         var randomValue = getRandomChoiceValue();
         outlet(0, randomValue);
-        post("✅ Found " + numberOfEntries + " sets (exact size: " + exactSetSize + ")\n");
-    } else {
-        post("⚠️ No sets found even after fallback.\n");
     }
 }
 
@@ -222,7 +212,6 @@ function list() {
 function msg_int(v) {
     if (inlet == 1) {
         exactSetSize = v;
-        post("Exact set size set to: " + exactSetSize + "\n");
         return;
     }
 
@@ -244,7 +233,6 @@ function reset() {
     numberOfEntries = result.length;
     var randomValue = getRandomChoiceValue();
     outlet(0, randomValue);
-    post("🎲 Reset: chose random scale of size " + exactSetSize + " (" + numberOfEntries + " total)\n");
 }
 
 // Third inlet: trigger new random selection

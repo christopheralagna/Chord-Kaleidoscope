@@ -35,7 +35,6 @@ function list() {
 function msg_int(v) {
     if (inlet === 1) {
         useSharps = v === 1 ? 1 : 0;
-        post("Note naming mode set to:", useSharps ? "Sharps (#)" : "Flats (b)", "\n");
 
         // Re-output last chord if one exists
         if (lastChord.length > 0) {

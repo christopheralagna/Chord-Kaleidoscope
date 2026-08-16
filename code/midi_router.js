@@ -40,9 +40,6 @@ function populateMenu() {
         for (var j = 0; j < trackNames.length; j++) {
             menu.message("append", trackNames[j]);
         }
-        post("✅ Found " + trackNames.length + " MIDI tracks.\n");
-    } else {
-        post("⚠️ No umenu named 'trackMenu' found.\n");
     }
 }
 
@@ -51,21 +48,16 @@ function msg_int(index) {
     if (index < 0 || index >= trackPaths.length) return;
 
     var selectedTrackPath = trackPaths[index];
-    post("🎯 Routing MIDI to: " + selectedTrackPath + "\n");
 
     if (midioutObj) {
         midioutObj.message("target", selectedTrackPath);
-    } else {
-        post("⚠️ No midiout object named 'midiRouterOut' found.\n");
     }
 }
 
 function testnote() {
     if (!midioutObj) {
-        post("❌ No midiout object found.\n");
         return;
     }
-    post("🎹 Sending test note...\n");
     // Middle C note-on, velocity 100
     midioutObj.message(144, 60, 100);
     // Note-off

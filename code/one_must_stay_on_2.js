@@ -52,7 +52,6 @@ var dropMap2Note = {
 // INIT
 // ============================================================
 function loadbang() {
-  post("\n==== one_must_stay_on_spreads_debug_v5.js LOADED ====\n");
   initGroup(allSpreadButtons, allSpreadStates);
   updateDictForAll();
 }
@@ -62,7 +61,6 @@ function initGroup(buttons, states) {
     var o = this.patcher.getnamed(buttons[i]);
     var on = states[i];
     if (o) o.message("set", on);
-    post("Init", buttons[i], "=", on, "\n");
   }
 }
 
@@ -121,20 +119,20 @@ function handleButton(name, val) {
 // ============================================================
 function updateDictForAll() {
   var d = new Dict("active_options");
-  ensurePath(d, "2NoteVoicing::inversions");
-  ensurePath(d, "3NoteVoicing::inversions");
-  ensurePath(d, "4NoteVoicing::inversions");
-  ensurePath(d, "2NoteVoicing::dropVoicings");
-  ensurePath(d, "3NoteVoicing::dropVoicings");
-  ensurePath(d, "4NoteVoicing::dropVoicings");
+  ensurePath(d, "2NoteVoicing", "inversions");
+  ensurePath(d, "3NoteVoicing", "inversions");
+  ensurePath(d, "4NoteVoicing", "inversions");
+  ensurePath(d, "2NoteVoicing", "dropVoicings");
+  ensurePath(d, "3NoteVoicing", "dropVoicings");
+  ensurePath(d, "4NoteVoicing", "dropVoicings");
 
   // Clear all existing keys for the managed buttons
   for (var i = 0; i < allSpreadButtons.length; i++) {
     var n = allSpreadButtons[i];
     var category = inversionButtons.indexOf(n) != -1 ? "inversions" : "dropVoicings";
-    d.remove("2NoteVoicing::" + category + "::" + n);
-    d.remove("3NoteVoicing::" + category + "::" + n);
-    d.remove("4NoteVoicing::" + category + "::" + n);
+    if (d.contains("2NoteVoicing::" + category + "::" + n)) d.remove("2NoteVoicing::" + category + "::" + n);
+    if (d.contains("3NoteVoicing::" + category + "::" + n)) d.remove("3NoteVoicing::" + category + "::" + n);
+    if (d.contains("4NoteVoicing::" + category + "::" + n)) d.remove("4NoteVoicing::" + category + "::" + n);
   }
 
   // Write all currently active states
@@ -155,10 +153,12 @@ function updateDictForAll() {
 }
 
 
-function ensurePath(d, path) {
-  if (!d.contains(path)) {
-    d.set(path, new Dict());
-    post("Created missing path:", path, "\n");
+function ensurePath(d, parent, child) {
+  if (!d.contains(parent)) {
+    d.setparse(parent, "{}");
+  }
+  if (!d.contains(parent + "::" + child)) {
+    d.setparse(parent + "::" + child, "{}");
   }
 }
 
