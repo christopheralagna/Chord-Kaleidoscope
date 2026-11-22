@@ -1,8 +1,8 @@
 # Chord Kaleidoscope
 
-![Chord Kaleidoscope](assets/CK_gumroad_cover_title.png)
-
 **Generative harmony and real-time MIDI accompaniment for Ableton Live**
+
+![Chord Kaleidoscope](assets/CK_gumroad_cover_title.png)
 
 ### Watch the Demo
 
@@ -14,9 +14,9 @@ Chord Kaleidoscope is an original Max for Live MIDI device that combines live sc
 
 Designed for improvisation, composition, and experimental sound design, the device offers a way to explore harmonic possibilities without committing to a fixed key or chord progression.
 
-**[Watch the Demonstration & Get the Device](https://hellojoywolf.gumroad.com/l/chord-kaleidoscope)** · **[User Manual](https://hellojoywolf.github.io/manual/)**
+**[Product Page](https://hellojoywolf.gumroad.com/l/chord-kaleidoscope)** · **[User Manual](https://hellojoywolf.github.io/manual/)**
 
-![Chord Kaleidoscope chord generation](assets/chord-kaleidoscope-github.gif)
+![Chord Kaleidoscope chord generation](assets/chord-kaleidoscope-8-second-loop.gif)
 ![Real-time harmonic accompaniment](assets/harmonic-accompaniment-github.gif)
 
 ## Overview
@@ -56,9 +56,13 @@ Chord Kaleidoscope tracks incoming MIDI pitch classes to construct a harmonic co
 The harmonic context can also be edited directly through the graphical interface.
 
 ![Scale Tracking](assets/CK_Gumroad_cover_1_v2.png)
-![Chord Voicings/Shapes](assets/CK_Gumroad_cover_2_v2.png)
-![Generate Modes](assets/CK_Gumroad_cover_3_v2.png)
-![Chord Memory](assets/CK_Gumroad_cover_4_v2.png)
+
+### Global MIDI Controls
+
+- Octave transposition from −2 to +2 octaves
+- Single- or dual-octave spreading
+- Chord velocity control
+- Scale locking and manual harmonic-context editing
 
 ### Three Generation Modes
 
@@ -68,22 +72,21 @@ The harmonic context can also be edited directly through the graphical interface
 | **Time-Interval** | Generate chords continuously or reactively, synchronized to Ableton's tempo or using a free-running interval. |
 | **Note-Count** | Trigger chord generation after a fixed or variable number of incoming MIDI notes. |
 
+![Generate Modes](assets/CK_Gumroad_cover_3_v2.png)
+
 ### Chord Shapes and Voicings
 
 Configure the harmonic structures available to the generator, including intervals, triads, suspended chords, quartal structures, clusters, and seventh-chord variations.
 
 Select inversions and drop voicings to create different harmonic textures. The generator samples from enabled options rather than relying on a single fixed chord shape.
 
+![Chord Voicings/Shapes](assets/CK_Gumroad_cover_2_v2.png)
+
 ### Five-Slot Chord Memory
 
 Store the five most recently generated chords, lock the memory, recall individual chords, and apply new voicings to previously generated material.
 
-### Global MIDI Controls
-
-- Octave transposition from −2 to +2 octaves
-- Single- or dual-octave spreading
-- Chord velocity control
-- Scale locking and manual harmonic-context editing
+![Chord Memory](assets/CK_Gumroad_cover_4_v2.png)
 
 For detailed controls, examples, and setup instructions, see the **[complete user manual](https://hellojoywolf.github.io/manual/)**.
 
