@@ -1,25 +1,145 @@
-An original Max for Live app, Chord Kaleidoscope, is a creative MIDI chord generator reactive to the melodies of realtime playing, for creative exploration and compositional inspiration
+# Chord Kaleidoscope
 
-Purpose:
-- Generate chords from incoming MIDI
-- Keep track parameters chosen by user like chord shapes, chord spreads, generate modes, chord memory, octave adjust, and so on, so that the chords are generated in the correct manner
-- Display the notes of the generated chord, notes of current scale, and tracked user notes to the user via graphical UI.
+**Generative harmony and real-time MIDI accompaniment for Ableton Live**
 
-Known startup bugs:
-- certain starting values do not get loadbanged, even with 500 ms delay on action. This happens for chord velocity (should be 75, set to 0), for octave adjust (should be option 2, set to option 0), and for scale type (should be 5-note, set to 4-note).
-- When rate is set to sync, the rate of chord generation should update as the Ableton global tempo is changed. This is not currently happening.
+Chord Kaleidoscope is an original Max for Live MIDI device that combines live scale tracking with adaptive chord generation. It listens to incoming MIDI notes, builds a harmonic context around them, and generates chords according to a configurable set of musical rules.
 
-Features:
-- Chord Memory: keeps track of and displays the last 5 chords generated in text form as eg. (B Eb F). Can lock the chords so that they are not overwritten by new chords, which then allows the user to select which chord of the 5 to generate repeatedly as dictated by generation mode. Can add spread to these chords, which applies different spread parameters to each new regenerated chord, rather than repeatedly generate the exact sameMIDI values.
-- Generate Modes: 3 modes are Manual, Time-interval, and Note-Count. In Manual mode, the user manually triggers the generation of chords with a "New Chord" button. In Time-interval mode, the user sets a time interval in Hz or synced in fractions of the Ableton tempo (e.g. 1/4, 1/8, 1/16, etc.) and the plugin generates chords at that interval. Within time-interval mode, there are 2 parameters 'constant' (chords are generated nonstop) and 'reactive' (a new chord is generated only if new input notes are detected between the current time interval) In Note-Count mode, the user sets a note count, and the plugin generates chords at that note count. Within note-count mode, there are 2 parameters 'fixed' (the same note count is used for every chord) and 'variable' (the note count is randomized between the minimum and maximum note counts).
-- Chord Spreads: Applies a set of possible inversions and drop voicings to the chord before generation. That is, root 1st inversion, 2nd inversion, 3rd inversion, block, drop 2, drop 3. Certain 
-- Chord Shapes: Applies a set of possible chord shapes to the chord before generation. These are characterized as 2-note chords, 3-note chords, or 4-note chords. 2-note chords are intervals like 2nd, 3rd, 4th, 5th, 6th, 7th. 3-note chords are triad, sus2, sus4, quartal, cluster 1, and cluster 2. 4-note chords are triad+2, triad+4, 7th, 7thsus4, special 1, and special 2. These chords do not have major or minor qualities, because that is dictated by detected scale. Not all chord shapes are possible to be selected with all scale types. Depending on scale type selected, which each account for the number of notes in a chosen scale, the plugin will only allow for chord shapes that are possible with that scale type. For example, the only scale type that allows all chord-shape options to be selected is 8-note scale.
-- Scale Detection: Detects the incoming MIDI notes and keeps track of the set of last played notes which do not break a rule of a scale (that is, no 3 consecutive half steps). There is a txt file filtered_powerset_list.txt that contains all possible valid scales represented as 0-11 integers, where 0 is the root note, 1 is the second chromatic note ascending, and so on. An example of a valid scale would be  (0, 2, 4, 6, 7, 9, 11) which would be Lydian major, or (0, 1, 3, 4, 6, 7, 9, 10) which would be half-whole octatonic scale. Scales can be as few as 4 notes and as many as 8 notes, and they include every possible scale that does not contain 3 consecutive half steps. For example (0, 1, 2, 4, 6, 8, 10) is not a valid scale because it contains 3 consecutive half steps (0, 1, 2). Note that 11 and 0 are considered consecutive notes in this context. Note that a 9-note scale cannot exist with this rule because it would necessitate 3 consecutive half steps.
-- Octave Adjust: Adjusts the octave of the generated chords by adding or subtracting 12 to the final set of numbers which represent midi note values.
-- chord velocity: Adjusts the velocity of the generated chords by adding or subtracting from the incoming midi note velocity.
-- Chord Kaleidoscope UI: A visual representation of the generated chords, the current scale, and the tracked user notes. These are displayed as a 12-note circle with labels (C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B) or (C, C#, D, D#, E, F, F#, G, G#, A, A#, B) depending on whether the user wants to use flats or sharps. Tracked notes are shown in blue on the outer perimeter, scale is shown in green in the middle, final generated chord in red on the innermost layer. A text version of the scale, chord, and tracked are also displayed in the UI, eg. (Tracked: Db Eb F Ab b | Scale: Db Eb F Ab | Chord: Db Eb F). Note that Scale is a subset of tracked, and chord is a subset of scale. 
-- Note tracking: Notes are actively listened for from the user's midi keyboard. The tracked notes are the last set of user notes which do not break the 3-consecutive-half-step rule. Tracked notes can also be added and subtracted via the Chord Kaleidoscope UI by clicking on 1 of the 12 segments of the circle, which each represent notes. Segments cannot be toggled on if doing so would break the 3-consecutive-half-step rule. can turn on and off the tracking of notes. Can reset the current notes tracked.
-- Scale tracking: based on the tracked notes, a scale is randomly selected before each new chord generation which is a subset of the tracked notes, using the filtered_powerset_list.txt file.
-- Scale type: sets scale generation to 4-note, 5-note, 6-note, 7-note, or 8-note scales. The scale type options are constrained by the number of notes in the current set of tracked notes. For example, if the current set of tracked notes is a whole tone scale (0,2,4,6,8,10), the user should not be able to select a 7-note scale or an 8-note scale, as adding an other note would break the 3-consecutive-half-step rule.
-- Lock scale: locks the current scale, so that it is not overwritten by new incoming notes. A new scale-type cannot be selected when lock scale is active.
-- Special mode 1 or 1-2: a user selection that allows chords to be generated in a 1 or 2-octave range, with consideration to the octave specified in "octave adjust".
+Designed for improvisation, composition, and experimental sound design, the device offers a way to explore harmonic possibilities without committing to a fixed key or chord progression.
+
+**[Watch the Demonstration & Get the Device](https://hellojoywolf.gumroad.com/l/chord-kaleidoscope)** · **[User Manual](https://hellojoywolf.github.io/manual/)**
+
+![Chord Kaleidoscope chord generation](assets/chord-kaleidoscope-demo.gif)
+![Real-time harmonic accompaniment](assets/harmonic-accompaniment-github.gif)
+
+## Overview
+
+Rather than generating chords from a predetermined progression, Chord Kaleidoscope responds to the notes you play.
+
+Its harmonic engine maintains a collection of recently played pitch classes, identifies compatible scales, and generates chords using selected shapes, inversions, and voicings.
+
+A three-ring graphical interface visualizes this process in real time:
+
+- **Outer ring:** Notes tracked from live MIDI input or selected manually.
+- **Middle ring:** The currently generated scale.
+- **Inner ring:** The resulting chord.
+
+This allows musicians to interact with the harmonic generation process visually while performing.
+
+## Creative Applications
+
+**Live accompaniment and improvisation**
+
+Generate responsive harmonic accompaniment while playing a melody. Explore changing harmonic interpretations without manually programming every chord.
+
+**Instant reharmonization**
+
+Loop a melodic phrase and experiment with different scale types, chord shapes, voicings, inversions, and generation parameters.
+
+**Generative sound design**
+
+Use rapid chord generation to drive synthesizers and effects. Free-running generation supports rates up to 20 Hz, enabling dense textures and experimental rhythmic material.
+
+## Features
+
+### Adaptive Scale Tracking
+
+Chord Kaleidoscope tracks incoming MIDI pitch classes to construct a harmonic context. Compatible scales are selected from a predefined collection, with scale sizes ranging from four to eight notes.
+
+The harmonic context can also be edited directly through the graphical interface.
+
+### Three Generation Modes
+
+| Mode | Behavior |
+|---|---|
+| **Manual** | Generate a new chord on demand. |
+| **Time-Interval** | Generate chords continuously or reactively, synchronized to Ableton's tempo or using a free-running interval. |
+| **Note-Count** | Trigger chord generation after a fixed or variable number of incoming MIDI notes. |
+
+### Chord Shapes and Voicings
+
+Configure the harmonic structures available to the generator, including intervals, triads, suspended chords, quartal structures, clusters, and seventh-chord variations.
+
+Select inversions and drop voicings to create different harmonic textures. The generator samples from enabled options rather than relying on a single fixed chord shape.
+
+### Five-Slot Chord Memory
+
+Store the five most recently generated chords, lock the memory, recall individual chords, and apply new voicings to previously generated material.
+
+### Global MIDI Controls
+
+- Octave transposition from −2 to +2 octaves
+- Single- or dual-octave spreading
+- Chord velocity control
+- Scale locking and manual harmonic-context editing
+
+For detailed controls, examples, and setup instructions, see the **[complete user manual](https://hellojoywolf.github.io/manual/)**.
+
+## Technical Implementation
+
+Chord Kaleidoscope was developed in **Max for Live**, combining Max's MIDI processing and event-driven patching environment with custom JavaScript modules.
+
+The source repository contains components responsible for MIDI routing, harmonic-context management, scale and chord selection, chord transformations, generation timing, memory, and graphical interaction.
+
+### Harmonic Representation
+
+Pitch classes are represented numerically within the 12-note chromatic system.
+
+The scale-selection system uses a precomputed collection of eligible pitch-class sets. These sets follow a constraint excluding three consecutive chromatic semitones, including across the octave boundary.
+
+Incoming notes update the tracked harmonic context. The generator can then select compatible scale material according to the active rules and requested scale size.
+
+### Chord Generation
+
+The generation pipeline combines several configurable operations:
+
+1. Maintain the current harmonic context from incoming or manually selected notes.
+2. Identify compatible scale material.
+3. Select enabled chord shapes and voicing parameters.
+4. Construct and transform the generated chord.
+5. Route the resulting MIDI notes to Ableton Live.
+6. Update the visual display and chord history.
+
+### Interface and State
+
+The graphical interface presents tracked notes, scale notes, and generated chord tones on a circular pitch-class display.
+
+Additional JavaScript modules manage interface options, generated chord history, parameter selection, and synchronization with the generation engine.
+
+### Source Code
+
+The repository includes:
+
+| Component | Description |
+|---|---|
+| [`Chord Kaleidoscope.amxd`](Chord%20Kaleidoscope.amxd) | Max for Live device |
+| [`code/`](code/) | JavaScript modules for generation, routing, timing, state, and voicing |
+| [`data/`](data/) | Harmonic lookup data and parameter configurations |
+| [`jsui_kaleidoscope.js`](jsui_kaleidoscope.js) | JavaScript graphical interface |
+
+Selected implementation files include [`create_chord.js`](code/create_chord.js), [`voice_leading.js`](code/voice_leading.js), [`chord_memory.js`](code/chord_memory.js), and [`midi_router.js`](code/midi_router.js).
+
+## Compatibility and Documentation
+
+**Release:** Chord Kaleidoscope 1.0
+
+**Host:** Ableton Live 11 or 12 with Max for Live
+
+**Installation and usage:** See the [user manual](https://hellojoywolf.github.io/manual/) for setup instructions, device controls, and example workflows.
+
+The commercially distributed version, demonstration, and additional product information are available on [Gumroad](https://hellojoywolf.gumroad.com/l/chord-kaleidoscope).
+
+## About the Project
+
+Chord Kaleidoscope is an independently developed music software project by **Christopher Alagna**, a pianist, composer, and software developer with a background in jazz, improvisation, and experimental music.
+
+The project grew from an interest in creating a more exploratory relationship between musical performance and generative computation.
+
+Its central goal is not to replace musical decision-making, but to provide a responsive environment for discovering unexpected harmonic possibilities.
+
+## Links
+
+- **[Product Page & Video Demonstration](https://hellojoywolf.gumroad.com/l/chord-kaleidoscope)**
+- **[Complete User Manual](https://hellojoywolf.github.io/manual/)**
+- **[GitHub Repository](https://github.com/christopheralagna/Chord-Kaleidoscope)**
+
+**Contact:** hellojoywolf@gmail.com
