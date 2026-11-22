@@ -4,8 +4,6 @@
 
 ![Chord Kaleidoscope](assets/CK_gumroad_cover_title.png)
 
-### Watch the Demo
-
 [![Chord Kaleidoscope — Full Video Demonstration](https://img.youtube.com/vi/-VBiLPtcIQo/maxresdefault.jpg)](https://www.youtube.com/watch?v=-VBiLPtcIQo)
 
 *Click the thumbnail to watch the full demonstration on YouTube.*
