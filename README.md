@@ -1,6 +1,14 @@
 # Chord Kaleidoscope
 
+![Chord Kaleidoscope](assets/CK_gumroad_cover_title.png)
+
 **Generative harmony and real-time MIDI accompaniment for Ableton Live**
+
+### Watch the Demo
+
+[![Chord Kaleidoscope — Full Video Demonstration](https://img.youtube.com/vi/-VBiLPtcIQo/maxresdefault.jpg)](https://www.youtube.com/watch?v=-VBiLPtcIQo)
+
+*Click the thumbnail to watch the full demonstration on YouTube.*
 
 Chord Kaleidoscope is an original Max for Live MIDI device that combines live scale tracking with adaptive chord generation. It listens to incoming MIDI notes, builds a harmonic context around them, and generates chords according to a configurable set of musical rules.
 
@@ -8,7 +16,7 @@ Designed for improvisation, composition, and experimental sound design, the devi
 
 **[Watch the Demonstration & Get the Device](https://hellojoywolf.gumroad.com/l/chord-kaleidoscope)** · **[User Manual](https://hellojoywolf.github.io/manual/)**
 
-![Chord Kaleidoscope chord generation](assets/chord-kaleidoscope-demo.gif)
+![Chord Kaleidoscope chord generation](assets/chord-kaleidoscope-github.gif)
 ![Real-time harmonic accompaniment](assets/harmonic-accompaniment-github.gif)
 
 ## Overview
@@ -46,6 +54,11 @@ Use rapid chord generation to drive synthesizers and effects. Free-running gener
 Chord Kaleidoscope tracks incoming MIDI pitch classes to construct a harmonic context. Compatible scales are selected from a predefined collection, with scale sizes ranging from four to eight notes.
 
 The harmonic context can also be edited directly through the graphical interface.
+
+![Scale Tracking](assets/CK_Gumroad_cover_1_v2.png)
+![Chord Voicings/Shapes](assets/CK_Gumroad_cover_2_v2.png)
+![Generate Modes](assets/CK_Gumroad_cover_3_v2.png)
+![Chord Memory](assets/CK_Gumroad_cover_4_v2.png)
 
 ### Three Generation Modes
 
